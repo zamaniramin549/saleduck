@@ -7,20 +7,26 @@ import { Qyu } from 'qyu';
 
 
 (async () => {
-    const siteUrl = ['https://www.hp.com/id-en/shop/', "https://www.ramzamani.com/", "https://www.asos.com/"];
+    const siteUrl = ['https://www.hp.com/id-en/shop/', "https://www.ramzamani.com/", "https://www.yahoo.com/", "https://www.google.com/"];
     const q = new Qyu({concurrency: 3});
     // const len= siteUrl.length;
     for (let key in siteUrl) {
         q(async () => {
+            const url = siteUrl[key];
             const resp = await fetch(siteUrl[key]);
             const html = await resp.text();
             const $ = cheerio.load(html);
             const h4 = $("h4").text();
             // const coupon = h4.includes('coupon code')  
             const coupon = h4.slice(h4.indexOf('coupon code:') + 'coupon code:'.length).trim().split(' ')[0].replace('Available', '')
-            console.log(coupon);
-            console.log(siteUrl[key]);
-            
+            // console.log(coupon);
+            // console.log(siteUrl[key]);
+            // console.log();
+            const codes = [];
+            codes.push({ url ,coupon});
+            console.log(codes);
+
+
             // let products = [];
             // $('.product-list .product').each((i, elem) => {
             //     let $elem = $(elem);
